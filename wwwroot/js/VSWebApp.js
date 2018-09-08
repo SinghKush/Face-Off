@@ -128,6 +128,22 @@ function myControllerFunc($scope, $http) {
         document.execCommand('copy');
         body.removeChild(copyElement);
     };
+    var varCounter = 0;
+    var intervalId = null;
+    $scope.runOneGame = function () {
+        video = document.querySelector("#videoElement");
+        preview = document.querySelector("#preview");
+        preview.getContext('2d').drawImage(video, 0, 0, 160, 120);
+        var image_url = preview.toDataURL('image/png');
+        localStorage.setItem("face.png", image_url);
+        $scope.searchFromImg();
+        setTimeout(1000);
+    };
+    $scope.startGame = function () {
+        for (var i = 0; i < 10; i++) {
+            setTimeout($scope.runOneGame, i * 1000);
+        }
+    }
 }
 function getJsonParsed(json) { //Parses the JSON into a string object
     var out = JSON.stringify({ json }, null, "\t");

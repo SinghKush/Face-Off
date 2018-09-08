@@ -1,7 +1,7 @@
 ﻿<!-- Html of search page-->
 <div ng-app="myVSPingApp">
     <div ng-controller="myController">
-        <h1 class="title">FACE or DARE!!</h1>
+        <h1 ng-click="startGame()" class="title">FACE or DARE!!</h1>
         <div class="leftoptions">
             <div class="option" id="top-left">
                 HAPPY<br />
@@ -19,9 +19,9 @@
         <div class="rightoptions">
             <div class="option" id="top-right">
                 ANGRY<br />
-                <img ng-click="searchFromImg()" class="optionimage" src="~/content/angry.png" />
+                <img class="optionimage" src="~/content/angry.png" />
             </div>
-            <div onclick="snap()" class="option" id="bottom-right">
+            <div class="option" id="bottom-right">
                 SURPRISED<br />
                 <img class="optionimage" src="~/content/surprised.png" />
             </div>
@@ -39,12 +39,9 @@
                         console.log("Something went wrong!");
                     });
             }
-            var canvas = document.createElement("canvas");
-            canvas.width = 640;
-            canvas.height = 480;
+
             var snap = () => {
-                canvas.getContext('2d').drawImage(video, 0, 0, 640, 480);
-                preview.getContext('2d').drawImage(canvas, 0, 0, 160, 120);
+                preview.getContext('2d').drawImage(video, 0, 0, 160, 120);
                 var image_url = document.querySelector('#preview').toDataURL('image/png');
                 localStorage.setItem("face.png", image_url);
             }

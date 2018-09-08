@@ -114,6 +114,10 @@ h3 {
     top: 60%;
 }
 
+#preview {
+    display: none;
+}
+
 tableheader {
     border-collapse: collapse;
     table-layout: fixed;
@@ -269,6 +273,10 @@ tableheader {
     margin-left: calc(50% - 210px);
 }
 
+.title:hover {
+    opacity: 0.3;
+    cursor: pointer;
+}
 
 .sizeUri{
     width: 50rem;
