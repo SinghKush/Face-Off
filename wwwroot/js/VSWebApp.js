@@ -69,6 +69,8 @@ function myControllerFunc($scope, $http) {
                         document.querySelector("#p2score").innerHTML = parseInt($scope.score * 10);
                     }
                     document.querySelector("#deltascorevalue").innerHTML = parseInt($scope.delta * 10);
+                    document.querySelector("#deltascore").style.visibility = "visible";
+                    setTimeout(function () { document.querySelector("#deltascore").style.visibility = "hidden" }, 1000);
                 }
             });
     };
@@ -83,8 +85,6 @@ function myControllerFunc($scope, $http) {
         var image_url = preview.toDataURL('image/png');
         localStorage.setItem("face.png", image_url);
         $scope.searchFromImg();
-        document.querySelector("#deltascore").style.visibility = "visible";
-        setTimeout(function () { document.querySelector("#deltascore").style.visibility = "hidden" }, 1000);
     };
     $scope.startGame = function () {
         $scope.score = 0;
