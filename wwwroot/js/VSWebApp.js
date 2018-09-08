@@ -42,64 +42,6 @@ function myControllerFunc($scope, $http) {
         visibility['RadioButtons'] = visibility;
     };
 
-    //Handles sending and recieving API queries of an image URL, also displays the different sections that are needed
-    $scope.searchFromUrl = function (url) {
-        if (url === null || url === "") {//Terminates if the URL is empty
-            return;
-        } 
-        //establish the new actual url
-        $scope.url = url;
-        //restarts the json checkbox if the user clicks search
-        //restarts the json checkbox if the user clicks search
-        if ($scope.showJSONChecked) {
-            $scope.showJSONChecked = !$scope.showJSONChecked;
-        }
-        var domainToFilterResultsTo = $scope.site;//Sets a site to specify results from if it exists
-        var knowledgeRequestPayload = //Creates the body of the request
-            {
-                knowledgeRequest: {
-                    filters: {
-                        site: domainToFilterResultsTo
-                    }
-                },
-                imageInfo: {
-                    cropArea: { top: 0, left: 0, right: 1.0, bottom: 1.0 },
-                    url: url
-                }
-            };
-        $scope.msg = "Loading..."; //Updates loading indicator
-        $scope.response = null; //Clears previous response
-        //Hide elements that will display updated information:
-        $scope.setVisibility(false);//Hides elements which don't have loaded data
-        var formData = new FormData(); //Creates new form object to send to API
-        formData.append("knowledgeRequest", JSON.stringify(knowledgeRequestPayload)); //Add body to the request
-        var requestPayloadFormData = formData;
-        var queryParams = "";
-        if ($scope.market !== "") {//If a market is specified, add it to the endpoint
-            queryParams = "?mkt=" + $scope.market;
-        }
-        $http(//Sends post request to the server
-            {
-                url: '/api/Search' + queryParams, //Sends data to the search controller, not directly to the endpoint
-                method: 'POST', //Specifices the use of a post request
-                data: requestPayloadFormData,
-                headers: { 'Content-Type': undefined }, //Manually add headers
-                transformRequest: angular.identity
-            }
-        ).then(
-            function (webapiresponse) { //on success
-                if (webapiresponse) {
-                    var vsResponse = webapiresponse.data; //Recieve response information
-                    $scope.response = vsResponse; //Save information to update the page
-                    $scope.parsedJson = getJsonParsed(vsResponse); //Parse response into string
-                    $scope.setVisibility(true); //Make loaded elements visible
-                    $scope.msg = null; //Clear loading indicator
-                }
-            },
-            function (webapiresponse) { //on failure
-                $scope.msg = "Service Error"; //Update loading indicator
-            });
-    };
     $scope.searchFromImg = function (files) {//Handles sending and recieving API queries of an uploaded image
         var img = files[0]; //Selects image (currently we only handle one file at a time)
         $scope.url = null; //Clears URL box
@@ -129,12 +71,12 @@ function myControllerFunc($scope, $http) {
 
         var formData = new FormData(); //Creates new form object to send to API
         formData.append("image", img); //Add image to request
-        //formData.append("knowledgeRequest", JSON.stringify(knowledgeRequestPayload)); //Add body to request
-
+        //formData.append("knowledgeRequest", JSON.stringify(knowledgeRequestPayload)); Add body to request
+        console.log("Ready to send request");
         var requestPayloadFormData = formData;
         $http(//Sends post request to the server
             {
-                url: '/api/Search' + queryParams, //Sends data to the search controller, not directly to the endpoint
+                url: '/api/Search', //Sends data to the search controller, not directly to the endpoint
                 method: 'POST', //Specifices the use of a post request
                 data: requestPayloadFormData,
                 headers: { 'Content-Type': undefined }, //Manually add headers
@@ -147,7 +89,7 @@ function myControllerFunc($scope, $http) {
                     $scope.response = vsResponse; //Save information to update the page
                     $scope.parsedJson = getJsonParsed(vsResponse); //Parse response into string
                     $scope.setVisibility(true); //Makes loaded elements visible again
-                    $scope.msg = null; //Clear loading indicator
+                    $scope.msg = null; //Clear loading 
                 }
             },
             function (webapiresponse) { //on failure
@@ -158,7 +100,7 @@ function myControllerFunc($scope, $http) {
         if ($scope.response === null || $scope.response.length === 0) //If there's no response return an empty array
             return [];
 
-        var vs = $scope.response.tags[0].actions.find(t => t.actionType === actionType);
+        var vs = $scope.response.faceAttributes.emotion.find(t => t.actionType === actionType);
         if (vs === undefined) {//If there are no action types, return an empty array
             return [];
         }
