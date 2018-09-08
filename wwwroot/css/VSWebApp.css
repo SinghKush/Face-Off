@@ -118,6 +118,17 @@ h3 {
     display: none;
 }
 
+#deltascore {
+    position: absolute;
+    left: calc(50% - 40px);
+    top: 80%;
+    color: goldenrod;
+    font-family: Consolas;
+    font-size: 60px;
+    font-weight: 800;
+    visibility: hidden;
+}
+
 .p1 {
     position: absolute;
     left: calc(5%);
@@ -288,7 +299,7 @@ tableheader {
     text-align: center;
     font-family: 'Century Gothic';
     position: absolute;
-    margin-left: calc(50% - 210px);
+    margin-left: calc(50% - 220px);
 }
 
 .title:hover {
