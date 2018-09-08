@@ -35,7 +35,7 @@ function myControllerFunc($scope, $http) {
         "RadioButtons": false
     };
     $scope.activeTable = "VisualSearch"; //Tracks which information is displayed in the main table
-    $scope.activeEmotion = "happiness";
+    $scope.activeEmotion = 0;
     $scope.score = 0;
     $scope.setVisibility = function (visibility) {//Function to set visibility
         visibility['ImageResults'] = visibility;
@@ -100,7 +100,16 @@ function myControllerFunc($scope, $http) {
                     $scope.setVisibility(true); //Makes loaded elements visible again
                     $scope.msg = null; //Clear loading 
                     console.log($scope.response);
-                    $scope.score = $scope.score + pscope.response.faceAttributes.emotion.$scope.activeEmotion;
+                    if ($scope.activeEmotion == 0) {
+                        $scope.score += vsResponse[0].faceAttributes.emotion.happiness;
+                    } else if ($scope.activeEmotion == 1) {
+                        $scope.score += vsResponse[0].faceAttributes.emotion.anger;
+                    } else if ($scope.activeEmotion == 2) {
+                        $scope.score += vsResponse[0].faceAttributes.emotion.sadness;
+                    } else if ($scope.activeEmotion == 3) {
+                        $scope.score += vsResponse[0].faceAttributes.emotion.surprise;
+                    }
+                    
                     console.log($scope.score);
                 }
             },

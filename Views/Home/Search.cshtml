@@ -3,11 +3,11 @@
     <div ng-controller="myController">
         <h1 ng-click="startGame()" class="title">FACE or DARE!!</h1>
         <div class="leftoptions">
-            <div class="option" id="top-left">
+            <div class="option" id="top-left" ng-click="activeEmotion = 0">
                 HAPPY<br />
                 <img class="optionimage" src="~/content/happy.png" />
             </div>
-            <div class="option" id="bottom-left">
+            <div class="option" id="bottom-left" ng-click="activeEmotion = 2">
                 SAD<br />
                 <img class="optionimage" src="~/content/sad.png" />
             </div>
@@ -17,11 +17,11 @@
             <canvas id="preview" width="160" height="120"></canvas>
         </div>
         <div class="rightoptions">
-            <div class="option" id="top-right">
+            <div class="option" id="top-right" ng-click="activeEmotion = 1">
                 ANGRY<br />
                 <img class="optionimage" src="~/content/angry.png" />
             </div>
-            <div class="option" id="bottom-right">
+            <div class="option" id="bottom-right" ng-click="activeEmotion = 3">
                 SURPRISED<br />
                 <img class="optionimage" src="~/content/surprised.png" />
             </div>
