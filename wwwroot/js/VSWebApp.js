@@ -129,13 +129,9 @@ function myControllerFunc($scope, $http) {
 
         var formData = new FormData(); //Creates new form object to send to API
         formData.append("image", img); //Add image to request
-        formData.append("knowledgeRequest", JSON.stringify(knowledgeRequestPayload)); //Add body to request
+        //formData.append("knowledgeRequest", JSON.stringify(knowledgeRequestPayload)); //Add body to request
 
         var requestPayloadFormData = formData;
-        var queryParams = "";
-        if ($scope.market !== "") {//If a market is specified, add it to the endpoint
-            queryParams = "?mkt=" + $scope.market;
-        }
         $http(//Sends post request to the server
             {
                 url: '/api/Search' + queryParams, //Sends data to the search controller, not directly to the endpoint

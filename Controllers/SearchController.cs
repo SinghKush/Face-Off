@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Options;
 using VSWebApp.Models;
+using System.IO;
+using System.Text;
 
 namespace VSWebApp.Controllers
 {
@@ -26,47 +28,43 @@ namespace VSWebApp.Controllers
         [HttpPost]
         public async Task Post(string mkt = null)
         {
-            var baseUri = "https://api.cognitive.microsoft.com/bing/v7.0/images/visualsearch/";
-            if(!string.IsNullOrWhiteSpace(mkt))
-            {
-                baseUri = baseUri + "?mkt=" + mkt;
-            }
-
+            var baseUri = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect";
             using (var client = new HttpClient())
-            using (var request = new HttpRequestMessage(HttpMethod.Post, baseUri))
             {
                 string accessKey = _appSettings.accessKey;
-                HttpContent content = null;
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accessKey);
-                if (Request.HasFormContentType)
+                string requestParameters = "returnFaceId=false&returnFaceLandmarks=false" +
+                "&returnFaceAttributes=emotion";
+                string uri = baseUri + "?" + requestParameters;
+
+                HttpResponseMessage response;
+
+                var form = await Request.ReadFormAsync();
+
+                foreach (var kvp in form)
                 {
-                    MultipartFormDataContent mfdc = new MultipartFormDataContent();
-
-                    var form = await Request.ReadFormAsync();
-
-                    foreach (var kvp in form)
-                    {
-                        var k = kvp.Key;
-                        var v = kvp.Value;
-                        mfdc.Add(new StringContent(v.ToString()), k);
-                    }
-
-                    foreach (var file in form.Files)
-                    {
-                        mfdc.Add(
-                                new StreamContent(file.OpenReadStream()),
-                                file.Name,
-                                file.FileName
-                                );
-                    }
-
-                    content = mfdc;
+                    var k = kvp.Key;
+                    var v = kvp.Value;
                 }
-                request.Content = content;
-                
-                using (var response = await client.SendAsync(request))
+
+                byte[] byteData = null;
+
+                foreach (var file in form.Files)
                 {
-                    Response.ContentType = response.Content.Headers.ContentType.MediaType;
+                    BinaryReader binaryReader = new BinaryReader(file.OpenReadStream());
+                    byteData = binaryReader.ReadBytes((int)file.OpenReadStream().Length);
+                }
+                
+                using (ByteArrayContent content = new ByteArrayContent(byteData))
+                {
+                    // This example uses content type "application/octet-stream".
+                    // The other content types you can use are "application/json"
+                    // and "multipart/form-data".
+                    content.Headers.ContentType =
+                        new MediaTypeHeaderValue("application/octet-stream");
+
+                    // Execute the REST API call.
+                    response = await client.PostAsync(uri, content);
 
                     var stream = await response.Content.ReadAsStreamAsync();
                     stream.CopyTo(Response.Body);
