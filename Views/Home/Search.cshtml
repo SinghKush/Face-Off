@@ -18,9 +18,9 @@
         <div class="rightoptions">
             <div class="option" id="top-right">
                 ANGRY<br />
-                <img class="optionimage" src="~/content/angry.png" />
+                <img ng-click="searchFromImg([document.querySelector('#videoElement')])" class="optionimage" src="~/content/angry.png" />
             </div>
-            <div class="option" id="bottom-right">
+            <div onclick="snap()" class="option" id="bottom-right">
                 SURPRISED<br />
                 <img class="optionimage" src="~/content/surprised.png" />
             </div>
