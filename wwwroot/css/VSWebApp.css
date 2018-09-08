@@ -299,7 +299,7 @@ tableheader {
     text-align: center;
     font-family: 'Century Gothic';
     position: absolute;
-    margin-left: calc(50% - 220px);
+    margin-left: calc(50% - 180px);
 }
 
 .title:hover {
