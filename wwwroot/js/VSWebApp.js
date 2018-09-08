@@ -43,7 +43,14 @@ function myControllerFunc($scope, $http) {
     };
 
     $scope.searchFromImg = function () {//Handles sending and recieving API queries of an uploaded image
-        var img = window.localStorage.getItem("face.png"); //Selects image (currently we only handle one file at a time)
+        var dataURI = window.localStorage.getItem("face.png"); //Selects image (currently we only handle one file at a time)
+        var binary = atob(dataURI.split(',')[1]);
+        var array = [];
+        for (var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        var img = new Blob([new Uint8Array(array)], { type: 'image/png' });
+
         $scope.url = null; //Clears URL box
         if (img === null) {//Terminates if an image isnt selected
             return;
@@ -90,6 +97,7 @@ function myControllerFunc($scope, $http) {
                     $scope.parsedJson = getJsonParsed(vsResponse); //Parse response into string
                     $scope.setVisibility(true); //Makes loaded elements visible again
                     $scope.msg = null; //Clear loading 
+                    console.log($scope.response);
                 }
             },
             function (webapiresponse) { //on failure

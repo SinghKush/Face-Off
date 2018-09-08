@@ -16,14 +16,6 @@
             <video class="videofeed" autoplay="autoplay" id="videoElement"></video>
             <canvas id="preview" width="160" height="120"></canvas>
         </div>
-        <script>
-            function getImage() {
-                var image_url = document.querySelector('#preview').toDataURL('image/png').replace('image/png', 'image/octet-stream');
-                img = new Image();
-                img.src = image_url;
-                return img;
-            }
-        </script>
         <div class="rightoptions">
             <div class="option" id="top-right">
                 ANGRY<br />
@@ -53,16 +45,8 @@
             var snap = () => {
                 canvas.getContext('2d').drawImage(video, 0, 0, 640, 480);
                 preview.getContext('2d').drawImage(canvas, 0, 0, 160, 120);
-                //var dataURL = preview.toDataURL('image/png');
-                //document.getElementById('uploadImage').value = dataURL;
-                var image_url = document.querySelector('#preview').toDataURL('image/png').replace('image/png', 'image/octet-stream');
-
+                var image_url = document.querySelector('#preview').toDataURL('image/png');
                 localStorage.setItem("face.png", image_url);
-                /*var xhr = new XMLHttpRequest();
-                xhr.open('POST', 'https://westus.api.cognitive.microsoft.com/vision/v1.0/ocr');
-                xhr.setRequestHeader("Content-Type", "application/octet-stream");
-                xhr.setRequestHeader("Ocp-Apim-Subscription-Key", "asdf");
-                xhr.send(image);*/
             }
         </script>
     </div>
