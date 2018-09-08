@@ -118,6 +118,24 @@ h3 {
     display: none;
 }
 
+.p1 {
+    position: absolute;
+    left: calc(5%);
+    top: 1%;
+    font-family: Consolas;
+    font-size: 48px;
+    font-weight: 800;
+}
+
+.p2 {
+    position: absolute;
+    right: calc(5%);
+    top: 1%;
+    font-family: Consolas;
+    font-size: 48px;
+    font-weight: 800;
+}
+
 tableheader {
     border-collapse: collapse;
     table-layout: fixed;

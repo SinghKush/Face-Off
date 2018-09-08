@@ -36,6 +36,7 @@ function myControllerFunc($scope, $http) {
     };
     $scope.activeTable = "VisualSearch"; //Tracks which information is displayed in the main table
     $scope.activeEmotion = 0;
+    $scope.player = 0;
     $scope.score = 0;
     $scope.setVisibility = function (visibility) {//Function to set visibility
         visibility['ImageResults'] = visibility;
@@ -109,8 +110,11 @@ function myControllerFunc($scope, $http) {
                     } else if ($scope.activeEmotion == 3) {
                         $scope.score += vsResponse[0].faceAttributes.emotion.surprise;
                     }
-                    
-                    console.log($scope.score);
+                    if ($scope.player == 1) {
+                        document.querySelector("#p1score").innerHTML = parseInt($scope.score * 10);
+                    } else {
+                        document.querySelector("#p2score").innerHTML = parseInt($scope.score * 10);
+                    }
                 }
             },
             function (webapiresponse) { //on failure
@@ -150,11 +154,11 @@ function myControllerFunc($scope, $http) {
         var image_url = preview.toDataURL('image/png');
         localStorage.setItem("face.png", image_url);
         $scope.searchFromImg();
-        setTimeout(1000);
     };
     $scope.startGame = function () {
+        $scope.score = 0;
         for (var i = 0; i < 10; i++) {
-            setTimeout($scope.runOneGame, i * 1000);
+            setTimeout($scope.runOneGame, i * 2000);
         }
     }
 }

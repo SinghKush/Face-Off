@@ -1,50 +1,64 @@
 ﻿<!-- Html of search page-->
 <div ng-app="myVSPingApp">
     <div ng-controller="myController">
-        <h1 ng-click="startGame()" class="title">FACE or DARE!!</h1>
-        <div class="leftoptions">
-            <div class="option" id="top-left" ng-click="activeEmotion = 0">
-                HAPPY<br />
-                <img class="optionimage" src="~/content/happy.png" />
+        <h1 ng-click="startGame(); player=(player+1)%2;" class="title">FACE or DARE!!</h1>
+        <div class="scores">
+            <div class="p1">
+                P1 Score:
+                <span id="p1score">
+                    0
+                </span>
             </div>
-            <div class="option" id="bottom-left" ng-click="activeEmotion = 2">
-                SAD<br />
-                <img class="optionimage" src="~/content/sad.png" />
+            <div class="p2">
+                P2 Score:
+                <span id="p2score">
+                    0
+                </span>
             </div>
-        </div>
-        <div>
-            <video class="videofeed" autoplay="autoplay" id="videoElement"></video>
-            <canvas id="preview" width="160" height="120"></canvas>
-        </div>
-        <div class="rightoptions">
-            <div class="option" id="top-right" ng-click="activeEmotion = 1">
-                ANGRY<br />
-                <img class="optionimage" src="~/content/angry.png" />
             </div>
-            <div class="option" id="bottom-right" ng-click="activeEmotion = 3">
-                SURPRISED<br />
-                <img class="optionimage" src="~/content/surprised.png" />
+            <div class="leftoptions">
+                <div class="option" id="top-left" ng-click="activeEmotion = 0">
+                    HAPPY<br />
+                    <img class="optionimage" src="~/content/happy.png" />
+                </div>
+                <div class="option" id="bottom-left" ng-click="activeEmotion = 2">
+                    SAD<br />
+                    <img class="optionimage" src="~/content/sad.png" />
+                </div>
             </div>
-        </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script>
-            var video = document.querySelector("#videoElement");
+            <div>
+                <video class="videofeed" autoplay="autoplay" id="videoElement"></video>
+                <canvas id="preview" width="160" height="120"></canvas>
+            </div>
+            <div class="rightoptions">
+                <div class="option" id="top-right" ng-click="activeEmotion = 1">
+                    ANGRY<br />
+                    <img class="optionimage" src="~/content/angry.png" />
+                </div>
+                <div class="option" id="bottom-right" ng-click="activeEmotion = 3">
+                    SURPRISED<br />
+                    <img class="optionimage" src="~/content/surprised.png" />
+                </div>
+            </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script>
+                var video = document.querySelector("#videoElement");
 
-            if (navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(function (stream) {
-                        video.srcObject = stream;
-                    })
-                    .catch(function (err0r) {
-                        console.log("Something went wrong!");
-                    });
-            }
+                if (navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function (stream) {
+                            video.srcObject = stream;
+                        })
+                        .catch(function (err0r) {
+                            console.log("Something went wrong!");
+                        });
+                }
 
-            var snap = () => {
-                preview.getContext('2d').drawImage(video, 0, 0, 160, 120);
-                var image_url = document.querySelector('#preview').toDataURL('image/png');
-                localStorage.setItem("face.png", image_url);
-            }
-        </script>
-    </div>
+                var snap = () => {
+                    preview.getContext('2d').drawImage(video, 0, 0, 160, 120);
+                    var image_url = document.querySelector('#preview').toDataURL('image/png');
+                    localStorage.setItem("face.png", image_url);
+                }
+            </script>
+        </div>
 </div>
