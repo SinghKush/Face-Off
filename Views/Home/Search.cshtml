@@ -4,27 +4,37 @@
         <h1 class="title">FACE or DARE!!</h1>
         <div class="leftoptions">
             <div class="option" id="top-left">
-                HAPPY<br/>
+                HAPPY<br />
                 <img class="optionimage" src="~/content/happy.png" />
             </div>
             <div class="option" id="bottom-left">
-                SAD<br/>
+                SAD<br />
                 <img class="optionimage" src="~/content/sad.png" />
             </div>
         </div>
         <div>
             <video class="videofeed" autoplay="autoplay" id="videoElement"></video>
+            <canvas id="preview" width="160" height="120"></canvas>
         </div>
+        <script>
+            function getImage() {
+                var image_url = document.querySelector('#preview').toDataURL('image/png').replace('image/png', 'image/octet-stream');
+                img = new Image();
+                img.src = image_url;
+                return img;
+            }
+        </script>
         <div class="rightoptions">
             <div class="option" id="top-right">
                 ANGRY<br />
-                <img ng-click="searchFromImg([document.querySelector('#videoElement')])" class="optionimage" src="~/content/angry.png" />
+                <img ng-click="searchFromImg()" class="optionimage" src="~/content/angry.png" />
             </div>
             <div onclick="snap()" class="option" id="bottom-right">
                 SURPRISED<br />
                 <img class="optionimage" src="~/content/surprised.png" />
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
             var video = document.querySelector("#videoElement");
 
@@ -36,6 +46,23 @@
                     .catch(function (err0r) {
                         console.log("Something went wrong!");
                     });
+            }
+            var canvas = document.createElement("canvas");
+            canvas.width = 640;
+            canvas.height = 480;
+            var snap = () => {
+                canvas.getContext('2d').drawImage(video, 0, 0, 640, 480);
+                preview.getContext('2d').drawImage(canvas, 0, 0, 160, 120);
+                //var dataURL = preview.toDataURL('image/png');
+                //document.getElementById('uploadImage').value = dataURL;
+                var image_url = document.querySelector('#preview').toDataURL('image/png').replace('image/png', 'image/octet-stream');
+
+                localStorage.setItem("face.png", image_url);
+                /*var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'https://westus.api.cognitive.microsoft.com/vision/v1.0/ocr');
+                xhr.setRequestHeader("Content-Type", "application/octet-stream");
+                xhr.setRequestHeader("Ocp-Apim-Subscription-Key", "asdf");
+                xhr.send(image);*/
             }
         </script>
     </div>

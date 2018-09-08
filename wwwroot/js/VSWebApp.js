@@ -42,8 +42,8 @@ function myControllerFunc($scope, $http) {
         visibility['RadioButtons'] = visibility;
     };
 
-    $scope.searchFromImg = function (files) {//Handles sending and recieving API queries of an uploaded image
-        var img = files[0]; //Selects image (currently we only handle one file at a time)
+    $scope.searchFromImg = function () {//Handles sending and recieving API queries of an uploaded image
+        var img = window.localStorage.getItem("face.png"); //Selects image (currently we only handle one file at a time)
         $scope.url = null; //Clears URL box
         if (img === null) {//Terminates if an image isnt selected
             return;
