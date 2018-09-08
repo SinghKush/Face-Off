@@ -1,21 +1,6 @@
 ﻿var myVSPingApp = angular.module("myVSPingApp", []);
 myVSPingApp.controller("myController", myControllerFunc);
 
-myVSPingApp.directive('customOnChange', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            var onChangeFunc = scope.$eval(attrs.customOnChange);
-            element.bind('change', function (event) {
-                var files = event.target.files;
-                onChangeFunc(files);
-            });
-            element.bind('click', function () {
-                element.val('');
-            });
-        }
-    };
-});
 console.log("angular initialized");
 function myControllerFunc($scope, $http) {
     console.log("controller");
@@ -107,28 +92,4 @@ function myControllerFunc($scope, $http) {
             setTimeout($scope.runOneGame, i * 2000);
         }
     }
-}
-
-function handleFileSelect(selector) {
-    var f = document.getElementById(selector).files[0]; // FileList object   
-    var reader = new FileReader();
-
-    // Capture the file information.
-    reader.onload = (function (theFile) {
-        return function (e) {
-            var fileOutput = document.getElementById('thumbnail');
-
-            if (fileOutput.childElementCount > 0) {
-                fileOutput.removeChild(fileOutput.lastChild);  // Remove the current pic, if it exists
-            }
-
-            // Render thumbnail.
-            var span = document.createElement('span');
-            span.innerHTML = ['<img class="actualImage" src="', e.target.result,
-                '" title="', escape(theFile.name), '"/>'].join('');
-            fileOutput.insertBefore(span, null);
-        };
-    })(f);
-    reader.readAsDataURL(f);
-   
 }
