@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="UnitTest0.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Home\VSearch.cshtml" />
     <Content Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <Content Remove="Views\_ViewImports.cshtml" />
